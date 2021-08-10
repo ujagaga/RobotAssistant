@@ -10,7 +10,7 @@ WAKE_WORD_DIR = "wake_word"
 current_path = os.path.dirname(os.path.realpath(__file__))
 wake_word_path = os.path.join(current_path, WAKE_WORD_DIR, WAKE_WORD)
 command = "arecord -r 16000 -f S16_LE -c 1 -t raw | rhasspy-wake-raven --record " + \
-          wake_word_path + "'" + WAKE_WORD + "-{n:02d}.wav'"
+          wake_word_path + " '" + WAKE_WORD + "-{n:02d}.wav'"
 
 print("Please record at least 5 samples and then review them, normalize, "
       "remove silence at start/end and keep just 3 of them.")

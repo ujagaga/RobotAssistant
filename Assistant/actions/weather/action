@@ -23,22 +23,19 @@ cities = {'Velika Plana': '784630', 'Velikoj Plani': '784630', 'Veliku Planu': '
           'Kikinda': '789518', 'Novi Sad': '3194360', 'Novom Sadu': '3194360'}
 messages = {'784630': 'Velikoj Plani', '789518': 'Kikindi', '3194360': 'Novom Sadu'}
 
-city_name = "Novi Sad"
 city_id = CITY_ID
 message_name = messages[CITY_ID]
 
 
 def parse_args():
-    global city_name
     global city_id
     global message_name
 
     command = sys.argv[1]
     for city in cities.keys():
         if city in command:
-            city_name = city
             city_id = cities[city]
-            message_name = messages[CITY_ID]
+            message_name = messages[city_id]
             return
 
 
@@ -50,9 +47,9 @@ def query_server():
     return json_ret_val
 
 
+parse_args()
 response = query_server()
 data = response['data'][0]
-
 temp = data['temp']
 weather = data['weather']
 description = weather['description'].replace('Цлеар ски', 'vedro')
@@ -60,5 +57,4 @@ description = weather['description'].replace('Цлеар ски', 'vedro')
 temp_str = "{}".format(temp)
 temp_str = temp_str.replace('.', ',')
 
-parse_args()
 print("Vreme u {}, je danas {} sa temperaturom od {} stepena celzijusa".format(message_name, description, temp_str))
