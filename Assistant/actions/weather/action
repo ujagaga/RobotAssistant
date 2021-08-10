@@ -57,4 +57,4 @@ description = weather['description'].replace('Цлеар ски', 'vedro')
 temp_str = "{}".format(temp)
 temp_str = temp_str.replace('.', ',')
 
-print("Vreme u {}, je danas {} sa temperaturom od {} stepena celzijusa".format(message_name, description, temp_str))
+print("Vreme u {} je danas {} sa temperaturom od {} stepena celzijusa".format(message_name, description, temp_str))

@@ -17,10 +17,12 @@ import hashlib
 import subprocess
 import speech_recognition as sr
 from gtts import gTTS
+from precise_runner import PreciseEngine, PreciseRunner
+import time
 
 
 # Configuration
-WAKE_WORD = "malecka"
+WAKE_WORD = "hey-mycroft"
 LANG = 'sr'
 
 WAKE_WORD_DIR = "wake_word"
@@ -28,11 +30,6 @@ RESPONSE_WORDS = ["molim", "da", "slušam", "kako mogu da pomognem", "izvolite",
 current_path = os.path.dirname(os.path.realpath(__file__))
 cfg_path = os.path.join(current_path, 'options.cfg')
 audio_cache_dir = os.path.join(current_path, 'audio_samples')
-
-# Prepare the wake word dir and listening command to execute
-wake_word_path = os.path.join(current_path, WAKE_WORD_DIR, WAKE_WORD)
-command = "arecord -r 16000 -f S16_LE -c 1 -t raw | rhasspy-wake-raven --average-templates --keyword {}" \
-          "".format(wake_word_path)
 actions_path = os.path.join(current_path, 'actions')
 actions = []
 sleep_process = None
@@ -77,6 +74,7 @@ def generate_audio(text_to_say):
     else:
         print('Generating:', text_to_say)
         text_to_audio(text_to_say)
+        print("Done")
 
     os.system("mpg321 {}".format(audio_file_path))
 
@@ -144,34 +142,6 @@ def listen_user():
         print("ERROR:", guess["transcription"])
 
     return guess["transcription"]
-
-
-# Listen to the user input
-def sleep_listen():
-    global sleep_process
-
-    if sleep_process is None:
-        sleep_process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-    # But do not wait till finish, start displaying output immediately
-    try:
-        while True:
-            output = sleep_process.stdout.readline()
-            if output == '' and sleep_process.poll() is not None:
-                break
-            if output:
-                raw_data = output.decode().strip()
-                try:
-                    data = json.loads(raw_data)
-                    print(data)
-                    yield data
-
-                except Exception as e:
-                    print("ERR:", e)
-    except:
-        sleep_process.kill()
-        print("EXITING")
-
-    return None
 
 
 def get_config():
@@ -266,6 +236,8 @@ def load_actions():
 
                 actions.append({'trig': trigger_words, 'exec': script_path})
 
+    print(actions)
+
 
 def execute(command_string):
     print("EXEC:", command_string)
@@ -275,8 +247,8 @@ def execute(command_string):
         for test_action in actions:
             words = test_action['trig']
             # Check if any of the words are in this action
-            for test_word in command_string.split(' '):
-                if test_word in words:
+            for test_word in words:
+                if test_word in command_string:
                     matched_action = test_action['exec']
                     command = [matched_action, command_string]
                     process = subprocess.run(command, check=True, stdout=subprocess.PIPE, universal_newlines=True)
@@ -287,6 +259,15 @@ def execute(command_string):
     return None
 
 
+def wake_up():
+    generate_audio(select_response())
+    user_request = listen_user()
+    if user_request is not None:
+        # Execute the request
+        response = execute(user_request)
+        generate_audio(response)
+
+
 # Prepare audio cache directory
 if not os.path.isdir(audio_cache_dir):
     os.mkdir(audio_cache_dir)
@@ -294,11 +275,10 @@ if not os.path.isdir(audio_cache_dir):
 get_config()
 load_actions()
 
+wake_word_model_path = os.path.join(current_path, WAKE_WORD_DIR, WAKE_WORD, WAKE_WORD + '.pb')
+engine = PreciseEngine('mycroft-precise', wake_word_model_path)
+runner = PreciseRunner(engine, on_activation=wake_up)
+runner.start()
+
 while True:
-    for result in sleep_listen():
-        generate_audio(select_response())
-        user_request = listen_user()
-        if user_request is not None:
-            # Execute the request
-            response = execute(user_request)
-            generate_audio(response)
+    time.sleep(10)
