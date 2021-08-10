@@ -2,7 +2,7 @@
 
 This is my first robot. It is still in development. For now, I have:
 - face recognition via webcam working with writing data to a database
-- prepared Rhaspy speach recognition toolkit
+- prepared personal assistant python application to be integrated for voice commands and response.
 - 3D model of the casing with two servo motors to house the computer with microphone, webcam,..
 
 My goal is to build a robot with servos using Orange Pi Zero, to follow the detected persons face, recognize voice commands and execute them. 

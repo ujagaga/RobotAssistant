@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+'''
+Script to display weather data. Uses www.weatherbit.io.
+Dependencies: pip3 install requests
+City ID can be acquired from city.list.json.gz at: http://bulk.openweathermap.org/sample/city.list.json.gz
+'''
+
+import requests
+import json
+import sys
+
+
+API_KEY = "6b15e16bb3dc4ba1b063d0836d56ce44"
+API_URL = "http://api.weatherbit.io/v2.0/current"
+
+CITY_ID = '784630'      # Velika Plana
+# CITY_ID = '789518'    # Kikinda
+# CITY_ID = '3194360'   # Novi Sad
+# CITY_ID = '783814'    # Zrenjanin
+# CITY_ID = '792680'    # Beograd
+cities = {'Velika Plana': '784630', 'Velikoj Plani': '784630', 'Veliku Planu': '784630',
+          'Kikinda': '789518', 'Novi Sad': '3194360', 'Novom Sadu': '3194360'}
+messages = {'784630': 'Velikoj Plani', '789518': 'Kikindi', '3194360': 'Novom Sadu'}
+
+city_name = "Novi Sad"
+city_id = CITY_ID
+message_name = messages[CITY_ID]
+
+
+def parse_args():
+    global city_name
+    global city_id
+    global message_name
+
+    command = sys.argv[1]
+    for city in cities.keys():
+        if city in command:
+            city_name = city
+            city_id = cities[city]
+            message_name = messages[CITY_ID]
+            return
+
+
+def query_server():
+    url_params = {'key': API_KEY, 'city_id': city_id, 'lang': 'sr'}
+    r = requests.get(API_URL, params=url_params)
+    json_ret_val = json.loads(r.text)
+
+    return json_ret_val
+
+
+response = query_server()
+data = response['data'][0]
+
+temp = data['temp']
+weather = data['weather']
+description = weather['description'].replace('Цлеар ски', 'vedro')
+
+temp_str = "{}".format(temp)
+temp_str = temp_str.replace('.', ',')
+
+parse_args()
+print("Vreme u {}, je danas {} sa temperaturom od {} stepena celzijusa".format(message_name, description, temp_str))
