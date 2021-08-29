@@ -8,11 +8,12 @@ import threading
 servo_1_pin = 7
 servo_2_pin = 11
 
+SERVO_STEPS = 10
 servo_period = 0.02                   # 20ms => 50Hz
 servo_min_pulse = 0.00125
 servo_max_pulse = 0.00175
-servo_increment = 0.00005
-servo_middle = (servo_max_pulse + servo_min_pulse) / 2
+servo_pause = servo_period - servo_max_pulse
+servo_increment = (servo_max_pulse - servo_min_pulse) / SERVO_STEPS
 
 CMD = None
 CMD_LEFT = "left"
@@ -28,13 +29,20 @@ def setup_gpio():
 
 
 def process_servo_cmd():
-    pulse = servo_middle
-    pause = servo_period - servo_middle
-    for i in range(0, 10):
-        GPIO.output(servo_1_pin, 1)
-        time.sleep(pulse)
-        GPIO.output(servo_1_pin, 0)
-        time.sleep(pause)
+    while True:
+        pulse_1_count = SERVO_STEPS // 2
+
+        if CMD == CMD_LEFT:
+            pulse_1_count = 0
+        elif CMD == CMD_RIGHT:
+            pulse_1_count = SERVO_STEPS
+
+        for i in range(0, SERVO_STEPS):
+            state = i < pulse_1_count
+            GPIO.output(servo_1_pin, state)
+            time.sleep(servo_increment)
+
+        time.sleep(servo_pause)
 
 
 setup_gpio()
