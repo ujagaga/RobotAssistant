@@ -55,7 +55,7 @@ setup_gpio()
 try:
     while True:
         GPIO.output(servo_1_pin, 1)
-        time.sleep(0.0015)
+        time.sleep(0.0013)
         GPIO.output(servo_1_pin, 0)
         time.sleep(0.02)
         GPIO.output(servo_1_pin, 1)
@@ -65,7 +65,7 @@ try:
         time.sleep(5)
 
         GPIO.output(servo_1_pin, 1)
-        time.sleep(0.0015)
+        time.sleep(0.0017)
         GPIO.output(servo_1_pin, 0)
         time.sleep(0.02)
         GPIO.output(servo_1_pin, 1)
