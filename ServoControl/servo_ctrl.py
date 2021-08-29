@@ -37,9 +37,13 @@ def process_servo_cmd():
         update_servo_1 = False
         if servo_1_value < servo_1_target:
             servo_1_value += servo_increment
+            if servo_1_value > servo_1_target:
+                servo_1_value = servo_1_target
             update_servo_1 = True
         elif servo_1_value > servo_1_target:
             servo_1_value -= servo_increment
+            if servo_1_value < servo_1_target:
+                servo_1_value = servo_1_target
             update_servo_1 = True
 
         if update_servo_1:
@@ -50,7 +54,7 @@ def process_servo_cmd():
             GPIO.output(servo_1_pin, 1)
             time.sleep(servo_1_value)
             GPIO.output(servo_1_pin, 0)
-            time.sleep(0.1)
+            time.sleep(0.02)
 
 
 setup_gpio()
