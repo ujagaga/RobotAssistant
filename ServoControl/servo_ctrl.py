@@ -51,10 +51,10 @@ def process_servo_cmd():
             time.sleep(servo_1_value)
             GPIO.output(servo_1_pin, 0)
             time.sleep(0.018)
-            GPIO.output(servo_1_pin, 1)
-            time.sleep(servo_1_value)
-            GPIO.output(servo_1_pin, 0)
-            time.sleep(0.018)
+            # GPIO.output(servo_1_pin, 1)
+            # time.sleep(servo_1_value)
+            # GPIO.output(servo_1_pin, 0)
+            # time.sleep(0.018)
 
 
 setup_gpio()
