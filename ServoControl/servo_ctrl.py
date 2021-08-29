@@ -8,12 +8,12 @@ import threading
 servo_1_pin = 7
 servo_2_pin = 11
 
-SERVO_STEPS = 60
 servo_pause = 0.02                   # 20ms => 50Hz
 servo_min_pulse = 0.00125
 servo_max_pulse = 0.00175
 
-servo_increment = (servo_max_pulse - servo_min_pulse) / SERVO_STEPS
+servo_increment = 0.0001
+
 
 servo_1_target = 0.0015
 
@@ -43,10 +43,6 @@ def process_servo_cmd():
             update_servo_1 = True
 
         if update_servo_1:
-            GPIO.output(servo_1_pin, 1)
-            time.sleep(servo_1_value)
-            GPIO.output(servo_1_pin, 0)
-            time.sleep(servo_pause)
             GPIO.output(servo_1_pin, 1)
             time.sleep(servo_1_value)
             GPIO.output(servo_1_pin, 0)
