@@ -10,13 +10,12 @@ servo_2_pin = 11
 
 SERVO_STEPS = 10
 servo_period = 0.02                   # 20ms => 50Hz
-servo_min_pulse = 0.00125
-servo_max_pulse = 0.00175
+# servo_min_pulse = 0.00125
+# servo_max_pulse = 0.00175
 
-servo_min_pulse = 0.00125
-servo_max_pulse = 0.00175
-servo_min_pulse = 0.005
-servo_max_pulse = 0.01
+servo_min_pulse = 0.001
+servo_max_pulse = 0.002
+
 
 servo_pause = servo_period - servo_max_pulse
 servo_increment = (servo_max_pulse - servo_min_pulse) / SERVO_STEPS
@@ -60,11 +59,11 @@ try:
     while True:
         time.sleep(5)
 
-        # CMD = CMD_LEFT
-        #
-        # time.sleep(5)
-        #
-        # CMD = CMD_RIGHT
+        CMD = CMD_LEFT
+
+        time.sleep(5)
+
+        CMD = CMD_RIGHT
 
 except:
     GPIO.cleanup()
