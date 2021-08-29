@@ -2,6 +2,7 @@
 
 import OPi.GPIO as GPIO
 import time
+import threading
 
 
 servo_1_pin = 7
@@ -13,15 +14,17 @@ servo_max_pulse = 0.00175
 servo_increment = 0.00005
 servo_middle = (servo_max_pulse + servo_min_pulse) / 2
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(servo_1_pin, GPIO.OUT)
-GPIO.setup(servo_2_pin, GPIO.OUT)
-
 CMD = None
 CMD_LEFT = "left"
 CMD_RIGHT = "right"
 CMD_UP = "up"
 CMD_DOWN = "down"
+
+
+def setup_gpio():
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(servo_1_pin, GPIO.OUT)
+    GPIO.setup(servo_2_pin, GPIO.OUT)
 
 
 def process_servo_cmd():
@@ -34,19 +37,19 @@ def process_servo_cmd():
         time.sleep(pause)
 
 
+setup_gpio()
+t_servo = threading.Thread(target=process_servo_cmd)
+t_servo.start()
+
 try:
     while True:
         time.sleep(3)
 
         CMD = CMD_LEFT
 
-        process_servo_cmd()
-
         time.sleep(3)
 
         CMD = CMD_RIGHT
-
-        process_servo_cmd()
 
 except:
     GPIO.cleanup()
