@@ -46,7 +46,7 @@ def process_servo_cmd():
             GPIO.output(servo_1_pin, 1)
             time.sleep(servo_1_value)
             GPIO.output(servo_1_pin, 0)
-            time.sleep(1)
+            time.sleep(0.1)
 
 
 setup_gpio()
@@ -56,8 +56,8 @@ t_servo.start()
 try:
     while True:
         servo_1_target = servo_min_pulse
-        time.sleep(5)
+        time.sleep(10)
         servo_1_target = servo_max_pulse
-        time.sleep(5)
+        time.sleep(10)
 except:
     GPIO.cleanup()
