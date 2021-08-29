@@ -62,7 +62,7 @@ try:
         time.sleep(0.0013)
         GPIO.output(servo_1_pin, 0)
 
-        time.sleep(5)
+        time.sleep(2)
 
         GPIO.output(servo_1_pin, 1)
         time.sleep(0.0017)
@@ -72,7 +72,17 @@ try:
         time.sleep(0.0017)
         GPIO.output(servo_1_pin, 0)
 
-        time.sleep(5)
+        time.sleep(2)
+
+        GPIO.output(servo_1_pin, 1)
+        time.sleep(0.0017)
+        GPIO.output(servo_1_pin, 0)
+        time.sleep(0.02)
+        GPIO.output(servo_1_pin, 1)
+        time.sleep(0.0017)
+        GPIO.output(servo_1_pin, 0)
+
+        time.sleep(2)
 
 
 except:
