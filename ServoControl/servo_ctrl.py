@@ -64,7 +64,7 @@ try:
         GPIO.output(servo_1_pin, 1)
         time.sleep(0.0015)
         GPIO.output(servo_1_pin, 0)
-        time.sleep(0.02 - 0.0015)
+        time.sleep(0.02)
 
 except:
     GPIO.cleanup()
