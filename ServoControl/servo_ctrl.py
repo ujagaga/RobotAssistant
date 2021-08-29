@@ -37,12 +37,13 @@ def process_servo_cmd():
         elif CMD == CMD_RIGHT:
             pulse_1_count = SERVO_STEPS
 
-        for i in range(0, SERVO_STEPS):
-            state = i < pulse_1_count
-            GPIO.output(servo_1_pin, state)
-            time.sleep(servo_increment)
+        for repeat in range(0, 10):
+            for i in range(0, SERVO_STEPS):
+                state = i < pulse_1_count
+                GPIO.output(servo_1_pin, state)
+                time.sleep(servo_increment)
 
-        time.sleep(servo_pause)
+            time.sleep(servo_pause)
 
 
 setup_gpio()
@@ -51,11 +52,11 @@ t_servo.start()
 
 try:
     while True:
-        time.sleep(3)
+        time.sleep(5)
 
         CMD = CMD_LEFT
 
-        time.sleep(3)
+        time.sleep(5)
 
         CMD = CMD_RIGHT
 
