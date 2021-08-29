@@ -10,11 +10,8 @@ servo_2_pin = 11
 
 SERVO_STEPS = 10
 servo_period = 0.02                   # 20ms => 50Hz
-# servo_min_pulse = 0.00125
-# servo_max_pulse = 0.00175
-
-servo_min_pulse = 0.001
-servo_max_pulse = 0.002
+servo_min_pulse = 0.00125
+servo_max_pulse = 0.00175
 
 
 servo_pause = servo_period - servo_max_pulse
@@ -52,18 +49,22 @@ def process_servo_cmd():
 
 
 setup_gpio()
-t_servo = threading.Thread(target=process_servo_cmd)
-t_servo.start()
+# t_servo = threading.Thread(target=process_servo_cmd)
+# t_servo.start()
 
 try:
     while True:
-        time.sleep(5)
-
-        CMD = CMD_LEFT
-
-        time.sleep(5)
-
-        CMD = CMD_RIGHT
+        # time.sleep(5)
+        #
+        # CMD = CMD_LEFT
+        #
+        # time.sleep(5)
+        #
+        # CMD = CMD_RIGHT
+        GPIO.output(servo_1_pin, 1)
+        time.sleep(servo_min_pulse)
+        GPIO.output(servo_1_pin, 0)
+        time.sleep(servo_period - servo_min_pulse)
 
 except:
     GPIO.cleanup()
