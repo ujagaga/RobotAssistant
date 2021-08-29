@@ -12,7 +12,7 @@ servo_pause = 0.02                   # 20ms => 50Hz
 servo_min_pulse = 0.00125
 servo_max_pulse = 0.00175
 
-servo_increment = 0.0001
+servo_increment = 0.00005
 
 
 servo_1_target = 0.0015
@@ -64,8 +64,8 @@ t_servo.start()
 try:
     while True:
         servo_1_target = servo_min_pulse
-        time.sleep(10)
+        time.sleep(4)
         servo_1_target = servo_max_pulse
-        time.sleep(10)
+        time.sleep(4)
 except:
     GPIO.cleanup()
