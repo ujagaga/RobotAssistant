@@ -15,8 +15,8 @@ servo_max_pulse = 0.00175
 
 servo_min_pulse = 0.00125
 servo_max_pulse = 0.00175
-servo_min_pulse = 0.01
-servo_max_pulse = 0.005
+servo_min_pulse = 0.005
+servo_max_pulse = 0.01
 
 servo_pause = servo_period - servo_max_pulse
 servo_increment = (servo_max_pulse - servo_min_pulse) / SERVO_STEPS
