@@ -54,17 +54,26 @@ setup_gpio()
 
 try:
     while True:
-        # time.sleep(5)
-        #
-        # CMD = CMD_LEFT
-        #
-        # time.sleep(5)
-        #
-        # CMD = CMD_RIGHT
         GPIO.output(servo_1_pin, 1)
         time.sleep(0.0015)
         GPIO.output(servo_1_pin, 0)
         time.sleep(0.02)
+        GPIO.output(servo_1_pin, 1)
+        time.sleep(0.0013)
+        GPIO.output(servo_1_pin, 0)
+
+        time.sleep(5)
+
+        GPIO.output(servo_1_pin, 1)
+        time.sleep(0.0015)
+        GPIO.output(servo_1_pin, 0)
+        time.sleep(0.02)
+        GPIO.output(servo_1_pin, 1)
+        time.sleep(0.0017)
+        GPIO.output(servo_1_pin, 0)
+
+        time.sleep(5)
+
 
 except:
     GPIO.cleanup()
