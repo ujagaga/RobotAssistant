@@ -62,9 +62,9 @@ try:
         #
         # CMD = CMD_RIGHT
         GPIO.output(servo_1_pin, 1)
-        time.sleep(0.015)
+        time.sleep(0.0015)
         GPIO.output(servo_1_pin, 0)
-        time.sleep(servo_period - 0.015)
+        time.sleep(0.02 - 0.0015)
 
 except:
     GPIO.cleanup()
